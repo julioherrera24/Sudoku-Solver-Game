@@ -10,15 +10,34 @@ board = [
     [0,4,9,2,0,6,0,0,7]
 ]
 
-def valid(bo, num, pos):
+def solve(bd):
+    find = findEmpty(bd)
+    if not find:
+        return True
+    else:
+        row, col = find
+
+    for i in range(1,10):
+        if valid(bd, i, (row, col)):
+            bd[row][col] = i
+
+            if solve(bd):
+                return True
+
+            bd[row][col] = 0
+
+    return False
+
+
+def valid(bd, num, pos):
     # Check row
-    for i in range(len(bo[0])):
-        if bo[pos[0]][i] == num and pos[1] != i:
+    for i in range(len(bd[0])):
+        if bd[pos[0]][i] == num and pos[1] != i:
             return False
 
     # Check column
-    for i in range(len(bo)):
-        if bo[i][pos[1]] == num and pos[0] != i:
+    for i in range(len(bd)):
+        if bd[i][pos[1]] == num and pos[0] != i:
             return False
 
     # Check box
@@ -27,12 +46,12 @@ def valid(bo, num, pos):
 
     for i in range(box_y*3, box_y*3 + 3):
         for j in range(box_x * 3, box_x*3 + 3):
-            if bo[i][j] == num and (i,j) != pos:
+            if bd[i][j] == num and (i,j) != pos:
                 return False
 
     return True
 
-def print_board(bd):
+def printBoard(bd):
 
   for i in range(len(bd)):
     
@@ -63,4 +82,4 @@ def findEmpty(bd):
         return (i, j)
 
 
-print_board(board)
+printBoard(board)
